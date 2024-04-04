@@ -15,7 +15,7 @@ function editarUsuario(form)
     return "Usuario editado";
 }
 
-function buscarFila(id = '3')
+function buscarFila(id)
 {
     const ids = sheetUsuarios.getRange(2, 1, sheetUsuarios.getLastRow()-1, 1).getValues().map(id => id[0]);
     // console.log(ids);

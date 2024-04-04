@@ -3,8 +3,10 @@
 <script>
 
     window.addEventListener('load', buscarDatos);
+
     function validarFormulario()
     {
+        loadingOnOff();
         const form = document.getElementById('crearUsuario');
         const id = form.usuarioId.value;
         console.log(id);
@@ -12,7 +14,12 @@
         {
             //create
             google.script.run
-            .withSuccessHandler( result =>{
+            .withSuccessHandler( result =>
+            {
+                loadingOnOff();
+                const tableBody = document.getElementById('tableBody-usuarios');
+                tableBody.innerHTML = '';
+                buscarDatos();
                 form.reset();
                 const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
                 crearModal.hide();
@@ -25,6 +32,10 @@
             google.script.run
             .withSuccessHandler(result =>
             {
+                loadingOnOff();
+                const tableBody = document.getElementById('tableBody-usuarios');
+                tableBody.innerHTML = '';
+                buscarDatos();
                 form.reset();
                 const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
                 crearModal.hide();
@@ -95,5 +106,48 @@
         document.getElementById('fechaNacimientoUsuario').value = nacimiento;
         document.getElementById('telefonoUsuario').value = telefono;
         document.getElementById('usuarioId').value = id;
+    }
+
+    function borrarUsuarioModal(button)
+    {
+        const id = button.dataset.usuarioId;
+        // console.log(id);
+        const borrarButton = document.getElementById('borrarUsuario');
+        borrarButton.dataset.usuarioId = id;
+        const borrarModal = bootstrap.Modal.getOrCreateInstance('#borrarModal');
+        borrarModal.show();
+    }
+
+    function clearForm()
+    {
+        const form = document.getElementById('crearUsuario');
+        form.reset();
+        const dataAttributeId = document.getElementById('borrarUsuario');
+        dataAttributeId.removeAttribute('data-id');
+    }
+
+    function validarBorrado(button)
+    {
+        // console.log(button);
+        const id = button.dataset.usuarioId;
+
+        google.script.run
+        .withSuccessHandler(result => 
+        {
+            const tableBody = document.getElementById('tableBody-usuarios');
+            tableBody.innerHTML = '';
+            buscarDatos();
+            const dataAttributeId = document.getElementById('borrarUsuario');
+            dataAttributeId.removeAttribute('data-usuario-id');
+            const borrarModal = bootstrap.Modal.getOrCreateInstance('#borrarModal');
+            borrarModal.hide();
+        })
+        .borrarUsuario(id);
+    }
+
+    function loadingOnOff()
+    {
+        document.querySelector('#guardarUsuario').classList.toggle('d-none');
+        document.querySelector('#loadingButton').classList.toggle('d-none');
     }
 </script>
