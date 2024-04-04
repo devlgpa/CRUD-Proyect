@@ -44,7 +44,7 @@
         <td class="template-correo"></td>
         <td class="template-nacimiento"></td>
         <td class="template-telefono"></td>
-        <td class="template-acciones text-center"><i class="bi bi-pencil button-edit me-3" role="button"></i><i class="bi bi-trash button-delete" role="button"></i></td>
+        <td class="template-acciones text-center"><i class="bi bi-pencil button-edit me-3" role="button" onclick="editarUsuarioModal(this)"></i><i class="bi bi-trash button-delete" role="button"></i></td>
       </tr>
     </template>
 
@@ -59,11 +59,14 @@
           <div class="modal-body">
             <form name="crearUsuario" id="crearUsuario">
               <div class="row mb-3">
+                <div class="mb-3">
+                  <input type="text" class="form-control" placeholder="#" aria-label="usuarioId" name="usuarioId" id="usuarioId" hidden>
+                </div>
                 <div class="col">
                   <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre(s)"></input>
                 </div>
                 <div class="col">
-                  <input type="text" class="form-control" id="apellidoUsuario" name="apellidoUsuario" placeholder="Apellido(s)"></input>
+                  <input type="text" class="form-control" id="apellidosUsuario" name="apellidosUsuario" placeholder="Apellido(s)"></input>
                 </div>
               </div>
               <select class="form-select mb-3" aria-label="sexoUsuario" name="sexoUsuario" id="sexoUsuario">

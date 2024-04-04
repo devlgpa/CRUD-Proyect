@@ -6,14 +6,33 @@
     function validarFormulario()
     {
         const form = document.getElementById('crearUsuario');
+        const id = form.usuarioId.value;
+        console.log(id);
+        if(id == '')
+        {
+            //create
+            google.script.run
+            .withSuccessHandler( result =>{
+                form.reset();
+                const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+                crearModal.hide();
+            })
+            .agregarUsuario(form);
+        }
+        else
+        {
+            //update
+            google.script.run
+            .withSuccessHandler(result =>
+            {
+                form.reset();
+                const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+                crearModal.hide();
+            })
+            .editarUsuario(form);
+        }
 
-        google.script.run
-        .withSuccessHandler( result =>{
-            form.reset();
-            const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
-            crearModal.hide();
-        })
-        .agregarUsuario(form);
+        
     }
 
     function buscarDatos()
@@ -52,5 +71,29 @@
             });
         })
         .readUsers();
+    }
+
+    function editarUsuarioModal(button)
+    {
+        const tableRow = button.parentNode.parentNode;
+        /*console.log(tableRow)*/
+        const id = button.dataset.usuarioId;
+        const name = tableRow.cells[0].innerHTML;
+        const apellidos = tableRow.cells[1].innerHTML;
+        const sexo = tableRow.cells[2].innerHTML;
+        const correo = tableRow.cells[3].innerHTML;
+        const nacimiento = tableRow.cells[4].innerHTML;
+        const telefono = tableRow.cells[5].innerHTML;
+
+        const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal')
+        crearModal.show();
+
+        document.getElementById('nombreUsuario').value = name;
+        document.getElementById('apellidosUsuario').value = apellidos;
+        document.getElementById('sexoUsuario').value = sexo;
+        document.getElementById('correoUsuario').value = correo;
+        document.getElementById('fechaNacimientoUsuario').value = nacimiento;
+        document.getElementById('telefonoUsuario').value = telefono;
+        document.getElementById('usuarioId').value = id;
     }
 </script>
